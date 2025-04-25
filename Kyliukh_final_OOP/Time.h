@@ -1,0 +1,45 @@
+#pragma once
+#include <iostream>
+#include <stdexcept>
+
+using std::ostream;
+
+class Time
+{
+private:
+	unsigned int _hours;
+	unsigned int _minutes;
+	unsigned int _seconds;
+
+public:
+	Time(unsigned int _s, unsigned int _m, unsigned _h)
+		: _seconds(_s), _minutes(_m), _hours(_h) {}
+
+	Time(const Time& other) = default;
+	Time(Time&& other) = default;
+	~Time() = default;
+
+	Time& operator=(const Time& other) = default;
+	Time& operator=(Time&& other) = default;
+
+	const unsigned int hours() const { return _hours; }
+	const unsigned int minutes() const { return _minutes; }
+	const unsigned int seconds() const { return _seconds; }
+
+	void setHours(unsigned int h);
+	void setMinutes(unsigned int m);
+	void setSeconds(unsigned int s);
+};
+
+bool operator==(const Time& t1, const Time& t2);
+
+const Time operator++(Time& t);
+const Time operator--(Time& t);
+const Time operator++(Time& t, int);
+const Time operator--(Time& t, int);
+
+const Time operator+(const Time& t1, const Time& t2);
+const Time operator-(const Time& t1, const Time& t2);
+
+ostream operator<<(ostream& os, const Time& t);
+

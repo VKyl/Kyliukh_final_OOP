@@ -13,13 +13,13 @@ private:
 public:
 	enum Month
 	{
-		January = 1, February, March, April, May, June,
-		July, August, September, October, November, December
+		Jan = 1, Feb, Mar, Apr, May, Jun,
+		Jul, Aug, Sep, Oct, Nov, Dec
 	};
 
 	Date(unsigned int d = 0, unsigned int m = 0, unsigned int y = 0)
 	{
-		fillDate(d, m, y);
+		fillDate(d, Month(m), y);
 	}
 
 	Date(unsigned int d, Month m, unsigned int y)
@@ -36,14 +36,11 @@ public:
 	const unsigned int year() const { return _year; }
 
 	const char* monthName() const { return monthNames[_month - 1]; }
+	const bool leapYear() const { return _year % 4 == 0; }
 
 private:
-	void fillDate(unsigned int  d, unsigned int m, unsigned int y)
-	{
-		_day = d ? d : defaultDate._day;
-		_month = m ? m : defaultDate._month;
-		_year = y ? y : defaultDate._year;
-	}
+	void fillDate(unsigned int  d, unsigned int m, unsigned int y);
+	void validateDate();
 };
 
 ostream& operator<<(ostream& os, const Date& date);

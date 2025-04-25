@@ -4,7 +4,7 @@
 
 int main()
 {
-	Date d;
+	Date d(1, 12, 2000);
 	std::cout << d << std::endl;
 	return 0;
 }

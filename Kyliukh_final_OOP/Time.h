@@ -7,9 +7,7 @@ using std::ostream;
 class Time
 {
 private:
-	unsigned int _hours;
-	unsigned int _minutes;
-	unsigned int _seconds;
+	unsigned int _hours, _minutes, _seconds;
 
 public:
 	Time(unsigned int _s, unsigned int _m, unsigned _h)

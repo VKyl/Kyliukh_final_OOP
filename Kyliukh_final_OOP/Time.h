@@ -13,7 +13,10 @@ private:
 
 public:
 	Time(unsigned int _s, unsigned int _m, unsigned _h)
-		: _seconds(_s), _minutes(_m), _hours(_h) {}
+		: _seconds(_s), _minutes(_m), _hours(_h)
+	{
+		normalizeTime();
+	}
 
 	Time(const Time& other) = default;
 	Time(Time&& other) = default;
@@ -29,9 +32,18 @@ public:
 	void setHours(unsigned int h);
 	void setMinutes(unsigned int m);
 	void setSeconds(unsigned int s);
+
+	unsigned int toSeconds() const;
+	unsigned int fromSeconds(unsigned int s);
+
+private:
+	void normalizeTime();
 };
 
 bool operator==(const Time& t1, const Time& t2);
+bool operator!=(const Time& t1, const Time& t2);
+bool operator<(const Time& t1, const Time& t2);
+bool operator>(const Time& t1, const Time& t2);
 
 const Time operator++(Time& t);
 const Time operator--(Time& t);
@@ -41,5 +53,5 @@ const Time operator--(Time& t, int);
 const Time operator+(const Time& t1, const Time& t2);
 const Time operator-(const Time& t1, const Time& t2);
 
-ostream operator<<(ostream& os, const Time& t);
+ostream& operator<<(ostream& os, const Time& t);
 

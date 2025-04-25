@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <iostream>
 
 using std::ostream;
@@ -46,9 +47,13 @@ public:
 
 	const char* monthName() const { return monthNames[_month]; }
 	const bool leapYear() const { return _year % 4 == 0; }
-	const unsigned int numberOfDays() const;
+	const unsigned int daysInMonth() const { return numberOfDays(_month); }
+	const unsigned int toDays() const;
 
 private:
+	const unsigned int numberOfDays(const unsigned int month) const;
+	const unsigned int monthToDaysFromBegin() const;
+
 	void fillDate(unsigned int  d, unsigned int m, unsigned int y);
 	void validateDate();
 	void normalizeDate();
@@ -59,12 +64,12 @@ const bool operator!=(const Date& d1, const Date& d2);
 const bool operator<(const Date& d1, const Date& d2);
 const bool operator>(const Date& d1, const Date& d2);
 
-const Date operator++(Date& d);
-const Date operator--(Date& d);
-const Date operator++(Date& d, int);
-const Date operator--(Date& d, int);
-
-const Date operator+(const Date& d1, const Date& d2);
-const Date operator-(const Date& d1, const Date& d2);
+const Date& operator++(Date& d);
+const Date& operator--(Date& d);
+const Date& operator++(Date& d, int);
+const Date& operator--(Date& d, int);
+		  
+const Date& operator+(const Date& d1, const unsigned int days);
+const Date& operator-(const Date& d1, const unsigned int days);
 
 ostream& operator<<(ostream& os, const Date& date);

@@ -32,7 +32,7 @@ public:
 	void setSeconds(unsigned int s);
 
 	unsigned int toSeconds() const;
-	unsigned int fromSeconds(unsigned int s);
+	Time& fromSeconds(unsigned int s);
 
 private:
 	void normalizeTime();
@@ -48,8 +48,8 @@ const Time operator--(Time& t);
 const Time operator++(Time& t, int);
 const Time operator--(Time& t, int);
 
-const Time operator+(const Time& t1, const Time& t2);
-const Time operator-(const Time& t1, const Time& t2);
+const Time operator+(const Time& t1, const unsigned int s);
+const Time operator-(const Time& t1, const unsigned int s);
 
 ostream& operator<<(ostream& os, const Time& t);
 

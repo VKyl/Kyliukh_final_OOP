@@ -29,12 +29,12 @@ unsigned int Time::toSeconds() const
 	return _seconds + _minutes * 60 + _hours * 3600;
 }
 
-unsigned int Time::fromSeconds(unsigned int s)
+Time& Time::fromSeconds(unsigned int s)
 {
 	_seconds = s % 60;
 	_minutes = (s / 60) % 60;
 	_hours = (s / 3600) % 24;
-	return s;
+	return *this;
 }
 
 bool operator==(const Time& t1, const Time& t2)
@@ -72,8 +72,7 @@ const Time operator++(Time& t)
 const Time operator--(Time& t)
 {
 	const unsigned int newTime = t.toSeconds() - 1;
-	t.fromSeconds(newTime);
-	return t;
+	return t.fromSeconds(newTime);
 }
 
 const Time operator++(Time& t, int)
@@ -90,24 +89,24 @@ const Time operator--(Time& t, int)
 	return temp;
 }
 
-const Time operator+(const Time& t1, const Time& t2)
+const Time operator+(const Time& t1, const unsigned int s)
 {
 	return Time(
-		t1.seconds() + t2.seconds(), 
-		t1.minutes() + t2.minutes(), 
-		t1.hours() + t2.hours()
+		t1.seconds() + s, 
+		t1.minutes(), 
+		t1.hours()
 	);
 }
 
-const Time operator-(const Time& t1, const Time& t2)
+const Time operator-(const Time& t1, const unsigned int s)
 {
-	if (t1 < t2) 
+	const unsigned int seconds = t1.toSeconds();
+	if ( seconds < s) 
 		throw std::invalid_argument("1st argument with Time operator- can't be less than 2nd");
 
 	Time result = Time(0, 0, 0);
-	const int resultSeconds = t1.toSeconds() - t2.toSeconds();
-	result.fromSeconds(resultSeconds);
-	return result;
+	const int resultSeconds = seconds - s;
+	return result.fromSeconds(resultSeconds);
 }
 
 ostream& operator<<(ostream& os, const Time& t)

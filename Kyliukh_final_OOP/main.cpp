@@ -1,10 +1,11 @@
 #include <iostream>
+#include "Time.h"
 
 
 int main()
 {
-	unsigned int a = 23;
-	unsigned int b = 59;
-	std::cout << (int)a - (int)b << std::endl;
+	Time t1 = Time(1, 5, 2);
+	Time t2 = Time(59, 58, 6);
+	std::cout << ++t2 << std::endl;
 	return 0;
 }

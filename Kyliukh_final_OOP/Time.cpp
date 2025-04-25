@@ -20,8 +20,8 @@ void Time::setSeconds(unsigned int s)
 
 void Time::normalizeTime()
 {
-	_hours += ((_minutes + (_seconds / 60) / 60));
-	_minutes += (_seconds / 60);
+	_hours += (_minutes + (_seconds / 60)) / 60;
+	_minutes = (_minutes + (_seconds / 60))%60;
 	_seconds %= 60;
 }
 

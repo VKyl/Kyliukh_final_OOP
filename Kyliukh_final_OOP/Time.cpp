@@ -3,7 +3,6 @@
 void Time::setHours(unsigned int h)
 {
 	_hours = h;
-	normalizeTime();
 }
 
 void Time::setMinutes(unsigned int m)
@@ -54,7 +53,6 @@ bool operator!=(const Time& t1, const Time& t2)
 
 bool operator<(const Time& t1, const Time& t2)
 {
-	if (t1 == t2) return false;
 	if (t1.hours() != t2.hours()) return t1.hours() < t2.hours();
 	if (t1.minutes() != t2.minutes()) return t1.minutes() < t2.minutes();
 	return t1.seconds() < t2.seconds();
@@ -62,7 +60,7 @@ bool operator<(const Time& t1, const Time& t2)
 
 bool operator>(const Time& t1, const Time& t2)
 {
-	return (t1 != t2) && !(t1 < t2);
+	return t2 < t1;
 }
 
 const Time operator++(Time& t)

@@ -63,6 +63,8 @@ public:
     const Sequence<Event*> filter(FilterType type, unsigned int queryParam);
     const Sequence<Event*> filterByTimespan(const Date& d1, const Date& d2) const;
 
+    static const Date semesterEndDate(const Date& start) { return start + SEMESTER_LENGTH * 7; }
+
     void addEvent(const Event& event);
     void markDate(const Date& date) { addEvent({date, Important, 1, "", ""}); };
 	void nextMonth();
@@ -70,7 +72,7 @@ public:
     void clear();
 
 private:
-    void initiateYear();
+    void initiateYear(unsigned int y = 0) const;
 };
 
 class Calendar::Month

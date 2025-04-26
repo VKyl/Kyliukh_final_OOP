@@ -46,7 +46,7 @@ const Event& Calendar::Month::operator[](size_t index) const
 
 Calendar::Year::Year(unsigned int year) : _year(year), _months()
 {
-	if (_year < 1970 || year > ::currentYear())
+	if (_year < 1970 || year > ::currentYear() + MAX_YEARS)
 		throw std::invalid_argument("Year must be >= 1970");
 
 	for (int i = 0; i < MONTH_AMOUNT; ++i)
@@ -79,7 +79,24 @@ const Sequence<Event*> Calendar::filterByTimespan(const Date& d1, const Date& d2
 {
 	if (d1 > d2)
 		throw std::invalid_argument("First date must be earlier than the second one");
-	return currentMonth().filterByTimespan(d1, d2);
+
+	Sequence<Event*> filteredEvents(10);
+	const unsigned int currentYear = ::currentYear();
+	unsigned int year = d1.year();
+	unsigned int month = d1.month();
+	while (year < d2.year() || (year == d2.year() && month <= d2.month()))
+	{
+		initiateYear(year - currentYear);
+		Sequence<Event*> temp = (*_years[year - currentYear])[month].filterByTimespan(d1, d2);
+
+		for (size_t i = 0; i < temp.size(); ++i)
+			filteredEvents.add(temp[i]);
+
+		++month;
+		year += (month - 1) / MONTH_AMOUNT;
+		month = (month - 1) % MONTH_AMOUNT + 1;
+	}
+	return filteredEvents;
 }
 
 const Sequence<Event*> Calendar::Month::filterByTimespan(const Date& d1, const Date& d2) const
@@ -127,23 +144,19 @@ void Calendar::clear()
 	}
 }
 
-void Calendar::initiateYear()
+void Calendar::initiateYear(unsigned int y) const
 {
-	if (_years[_currentYear] == nullptr)
-		_years[_currentYear] = new Year(::currentYear() + _currentYear);
+	y = y ? y : _currentYear;
+	if (_years[y] == nullptr)
+		_years[y] = new Year(::currentYear() + y);
 }
 
 void Calendar::nextMonth()
 {
-	if (_currentMonth == MONTH_AMOUNT)
-	{
-		_currentMonth = 1;
-		++_currentYear;
-	}
-	else
-	{
-		++_currentMonth;
-	}
+	++_currentMonth;
+	_currentYear += (_currentMonth - 1) / MONTH_AMOUNT;
+	_currentMonth = (_currentMonth - 1) % MONTH_AMOUNT + 1;
+
 	if (_years[_currentYear] == nullptr)
 		initiateYear();
 }

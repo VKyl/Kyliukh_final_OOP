@@ -175,6 +175,15 @@ const Date operator-(const Date& d1, const unsigned int d)
     return res;
 }
 
+const bool operator<=(const Date& d1, const Date& d2)
+{
+	return (d1 < d2) || (d1 == d2);
+}
+
+const bool operator>=(const Date& d1, const Date& d2)
+{
+	return (d1 > d2) || (d1 == d2);
+}
 ostream& operator<<(ostream& out, const Date& date)
 {
     out << date.day() << ' ' << date.monthName() << ' ' << date.year();

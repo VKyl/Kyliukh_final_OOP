@@ -11,6 +11,39 @@ private:
 	Array<Elem> *  _allocator;
 public:
 	Sequence(const size_t capacity) : _size(0), _allocator(new Array<Elem>(capacity)) {}
+	Sequence(const Sequence& other) : _size(other._size), _allocator(new Array<Elem>(other.capacity()))
+	{
+		for (size_t i = 0; i < _size; ++i)
+			(*_allocator)[i] = new Elem((*other._allocator)[i]);
+	}
+
+	Sequence& operator=(const Sequence& other)
+	{
+		if (this == &other) return *this;
+		delete _allocator;
+		_size = other._size;
+		_allocator = new Array<Elem>(other.capacity());
+		for (size_t i = 0; i < _size; ++i)
+			(*_allocator)[i] = new Elem((*other._allocator)[i]);
+		return *this;
+	}
+
+	Sequence(Sequence&& other) : _size(other._size), _allocator(other._allocator)
+	{
+		other._size = 0;
+		other._allocator = nullptr;
+	}
+
+	Sequence& operator=(Sequence&& other)
+	{
+		if (this == &other) return *this;
+		delete _allocator;
+		_size = other._size;
+		_allocator = other._allocator;
+		other._size = 0;
+		other._allocator = nullptr;
+		return *this;
+	}
 
 	~Sequence() { delete _allocator; }
 
@@ -101,11 +134,6 @@ private:
 		++_size;
 		return *this;
 	}
-
-	Sequence(const Sequence&) = delete;
-	Sequence& operator=(const Sequence&) = delete;
-	Sequence(Sequence&&) = delete;
-	Sequence& operator=(Sequence&&) = delete;
 };
 
 template <typename Elem>

@@ -75,6 +75,8 @@ const bool operator==(const Date& d1, const Date& d2);
 const bool operator!=(const Date& d1, const Date& d2);
 const bool operator<(const Date& d1, const Date& d2);
 const bool operator>(const Date& d1, const Date& d2);
+const bool operator<=(const Date& d1, const Date& d2);
+const bool operator>=(const Date& d1, const Date& d2);
 
 const Date& operator++(Date& d);
 const Date& operator--(Date& d);

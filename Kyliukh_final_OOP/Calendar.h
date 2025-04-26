@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <chrono>
+#include <functional>
 #include <iomanip>
 #include <ctime>
 #include "Event.h"
@@ -12,14 +13,24 @@ using std::time_t, std::time, std::ostream, std::setw;
 const size_t MAX_YEARS = 10;
 const size_t SEMESTER_LENGTH = 12;
 const size_t MONTH_AMOUNT = 12;
+const size_t FILTERS_AMOUNT = 3;
+
+static enum FilterType
+{
+	Type,
+	Priority,
+	Month
+};
+
+extern bool(* const filters[FILTERS_AMOUNT])(const Event&, unsigned int);
 
 int currentYear();
 
 class Calendar
 {
 public:
-    class Month;
     class Year;
+    class Month;
 
 private:
     mutable Year* _years[MAX_YEARS];
@@ -46,8 +57,11 @@ public:
 	const Year& currentYear() const { return *_years[_currentYear]; };
     const Year& currentYear() { return *_years[_currentYear]; };
 
-    const Month& currentMonth() const { return currentYear()[_currentMonth]; };
-    const Month& currentMonth() { return currentYear()[_currentMonth]; };
+    const Calendar::Month& currentMonth() const;
+    const Calendar::Month& currentMonth();
+
+    const Sequence<Event*> filter(FilterType type, unsigned int queryParam);
+    const Sequence<Event*> filterByTimespan(const Date& d1, const Date& d2) const;
 
     void addEvent(const Event& event);
     void markDate(const Date& date) { addEvent({date, Important, 1, "", ""}); };
@@ -59,7 +73,7 @@ private:
     void initiateYear();
 };
 
-class Month
+class Calendar::Month
 {
 private:
     unsigned int _month;
@@ -85,7 +99,10 @@ public:
     ~Month()
     {
         for (int i = 0; i < _events.size(); ++i)
+        {
             delete _events[i];
+			_events[i] = nullptr;
+        }
     }
 
     const unsigned int month() const { return _month; }
@@ -94,6 +111,9 @@ public:
     const size_t daysAmount() { return _days_amount; }
     const unsigned int year() const { return _month; }
     const unsigned int year() { return _month; }
+
+    const Sequence<Event*> filter(bool(*filter)(const Event&, unsigned int), unsigned int queryParam) const;
+    const Sequence<Event*> filterByTimespan(const Date& d1, const Date& d2) const;
 
     const bool isDayMarked(size_t day) const
     {
@@ -111,14 +131,11 @@ public:
     const Event& operator[](size_t index) const;
 };
 
-class Year
+class Calendar::Year
 {
-public:
-
-
 private:
     unsigned int _year;
-    mutable Month* _months[MONTH_AMOUNT];
+    mutable Calendar::Month* _months[MONTH_AMOUNT];
 
 public:
     Year(unsigned int year);
@@ -139,8 +156,8 @@ public:
     const unsigned int year() const { return _year; };
     const unsigned int year() { return _year; };
 
-    const Month& operator[](size_t month) const;
-    const Month& operator[](size_t month);
+    const Calendar::Month& operator[](size_t month) const;
+    const Calendar::Month& operator[](size_t month);
 
 private:
     void initiateMonth(size_t month) const;

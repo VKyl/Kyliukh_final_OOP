@@ -65,16 +65,16 @@ public:
 
     const Date& date() const { return _date; }
     const Time& time() const { return _time; }
-    const string& type() const { return eventTypeName(_type); }
+
+	const unsigned int typeCode() const { return _type; }
+    const string& type() const { return eventTypeName(EventType(_type)); }
+
     int priority() const { return _priority; }
     const string& title() const { return _title; }
     const string& description() const { return _description; }
     bool hasTime() const { return _hasTime; }
 
 	static const string& eventTypeName(EventType type) { return EventTypeNames[type]; }
-private:
-    const string& eventTypeName(unsigned int type) const { return EventTypeNames[type]; }
-
 };
 
 ostream& operator<<(ostream& out, const Event& event);

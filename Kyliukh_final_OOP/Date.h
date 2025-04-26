@@ -9,18 +9,18 @@ class Date
 private:
 	unsigned int _day, _month, _year;
 	const static char monthNames[12][4];
+	const static int monthDaysFromBegin[12];
 	static const Date defaultDate;
 
 public:
 	enum Month
 	{
-		Jan, Feb, Mar, Apr, May, Jun,
+		Jan=1, Feb, Mar, Apr, May, Jun,
 		Jul, Aug, Sep, Oct, Nov, Dec
 	};
 
 	Date(unsigned int d = 0, unsigned int m = 0, unsigned int y = 0)
 	{
-		std::cout << Month(m);
 		fillDate(d, Month(m), y);
 	}
 
@@ -45,14 +45,13 @@ public:
 	void setMonth(unsigned int m) { _month = m; normalizeDate(); }
 	void setYear(unsigned int y) { _year = y; normalizeDate(); }
 
-	const char* monthName() const { return monthNames[_month]; }
+	const char* monthName() const { return monthNames[_month-1]; }
 	const bool leapYear() const { return _year % 4 == 0; }
 	const unsigned int daysInMonth() const { return numberOfDays(_month); }
 	const unsigned int toDays() const;
 
 private:
 	const unsigned int numberOfDays(const unsigned int month) const;
-	const unsigned int monthToDaysFromBegin() const;
 
 	void fillDate(unsigned int  d, unsigned int m, unsigned int y);
 	void validateDate();
@@ -66,10 +65,10 @@ const bool operator>(const Date& d1, const Date& d2);
 
 const Date& operator++(Date& d);
 const Date& operator--(Date& d);
-const Date& operator++(Date& d, int);
-const Date& operator--(Date& d, int);
+const Date operator++(Date& d, int);
+const Date operator--(Date& d, int);
 		  
-const Date& operator+(const Date& d1, const unsigned int days);
-const Date& operator-(const Date& d1, const unsigned int days);
+const Date operator+(const Date& d1, const unsigned int days);
+const Date operator-(const Date& d1, const unsigned int days);
 
 ostream& operator<<(ostream& os, const Date& date);

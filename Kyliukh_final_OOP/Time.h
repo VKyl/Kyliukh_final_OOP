@@ -43,8 +43,8 @@ bool operator!=(const Time& t1, const Time& t2);
 bool operator<(const Time& t1, const Time& t2);
 bool operator>(const Time& t1, const Time& t2);
 
-const Time operator++(Time& t);
-const Time operator--(Time& t);
+const Time& operator++(Time& t);
+const Time& operator--(Time& t);
 const Time operator++(Time& t, int);
 const Time operator--(Time& t, int);
 

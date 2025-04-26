@@ -63,13 +63,13 @@ bool operator>(const Time& t1, const Time& t2)
 	return t2 < t1;
 }
 
-const Time operator++(Time& t)
+const Time& operator++(Time& t)
 {
 	t.setSeconds(t.seconds() + 1);
 	return t;
 }
 
-const Time operator--(Time& t)
+const Time& operator--(Time& t)
 {
 	const unsigned int newTime = t.toSeconds() - 1;
 	return t.fromSeconds(newTime);

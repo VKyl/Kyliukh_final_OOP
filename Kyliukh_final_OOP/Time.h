@@ -54,5 +54,5 @@ const Time operator--(Time& t, int);
 const Time operator+(const Time& t1, const unsigned int s);
 const Time operator-(const Time& t1, const unsigned int s);
 
-ostream& operator<<(ostream& os, const Time& t);
+ostream& operator<<(ostream& out, const Time& t);
 

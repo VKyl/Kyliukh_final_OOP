@@ -4,11 +4,15 @@
 
 using std::ostream;
 
+const static char monthNames[12][4] = {
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
 class Date
 {
 private:
 	unsigned int _day, _month, _year;
-	const static char monthNames[12][4];
 	const static int monthDaysFromBegin[12];
 	static const Date defaultDate;
 

@@ -1,15 +1,15 @@
 #include "Event.h"
 
-ostream& operator<<(ostream& os, const Event& event)
+ostream& operator<<(ostream& out, const Event& event)
 {
-	os << "Event: " << event.title() << "\n"
+	out << "Event: " << event.title() << "\n"
 		<< "Date: " << event.date() << "\n";
 	if (event.hasTime())
 	{
-		os << "Time: " << event.time() << "\n";
+		out << "Time: " << event.time() << "\n";
 	}
-	os << "Type: " << event.type() << "\n"
+	out << "Type: " << event.type() << "\n"
 		<< "Priority: " << event.priority() << "\n"
 		<< "Description: " << event.description() << "\n";
-	return os;
+	return out;
 }

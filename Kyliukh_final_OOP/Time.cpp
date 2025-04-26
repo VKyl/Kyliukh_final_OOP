@@ -121,9 +121,9 @@ const Time operator-(const Time& t1, const unsigned int s)
 	return result.fromSeconds(resultSeconds);
 }
 
-ostream& operator<<(ostream& os, const Time& t)
+ostream& operator<<(ostream& out, const Time& t)
 {
-	os << t.hours() << "h:" << t.minutes() << "m:" << t.seconds() << 's';
-	return os;
+	out << t.hours() << "h:" << t.minutes() << "m:" << t.seconds() << 's';
+	return out;
 }
 

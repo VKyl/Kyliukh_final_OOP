@@ -75,4 +75,4 @@ private:
 
 };
 
-ostream& operator<<(ostream& os, const Event& event);
+ostream& operator<<(ostream& out, const Event& event);

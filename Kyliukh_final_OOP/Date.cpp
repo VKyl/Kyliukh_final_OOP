@@ -3,11 +3,6 @@
 const unsigned int UNIX_EPOCH = 1970;
 const unsigned int UNIX_EPOCH_DAYS = 719527;
 
-const char Date::monthNames[12][4] = {
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-};
-
 const int Date::monthDaysFromBegin[12] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
 const Date Date::defaultDate(1, Jan, UNIX_EPOCH);
@@ -171,8 +166,8 @@ const Date operator-(const Date& d1, const unsigned int d)
     return res;
 }
 
-ostream& operator<<(ostream& os, const Date& date)
+ostream& operator<<(ostream& out, const Date& date)
 {
-    os << date.day() << ' ' << date.monthName() << ' ' << date.year();
-    return os;
+    out << date.day() << ' ' << date.monthName() << ' ' << date.year();
+    return out;
 }

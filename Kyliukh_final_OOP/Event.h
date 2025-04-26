@@ -10,6 +10,7 @@ enum EventType
     Reminder,
     Task,
     Celebration,
+    Important,
     Other
 };
 
@@ -18,6 +19,7 @@ const string EventTypeNames[] = {
     "Reminder",
     "Task",
     "Celebration",
+	"Important date",
     "Other"
 };
 
@@ -69,7 +71,7 @@ public:
 
 	static const string& eventTypeName(EventType type) { return EventTypeNames[type]; }
 private:
-    static const string& eventTypeName(unsigned int type) { return EventTypeNames[type]; }
+    const string& eventTypeName(unsigned int type) const { return EventTypeNames[type]; }
 
 };
 

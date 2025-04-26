@@ -42,15 +42,29 @@ Calendar::Year::~Year()
 		delete _months[i];
 }
 
-const Calendar::Year::Month& Calendar::Year::operator[](size_t month) const
+const Calendar::Year::Month& Calendar::Year::operator[](size_t month)  const
 {
 	if (month < 1 || month > MONTH_AMOUNT)
 		throw std::out_of_range("Month must be in range [1, 12]");
 
-	if (_months[month - 1] == nullptr)
-		_months[month - 1] = new Month(month);
+	initiateMonth(month);
+	return *(_months[month - 1]);
+}
+
+const Calendar::Year::Month& Calendar::Year::operator[](size_t month)
+{
+	if (month < 1 || month > MONTH_AMOUNT)
+		throw std::out_of_range("Month must be in range [1, 12]");
+	
+	initiateMonth(month);
 
 	return *(_months[month - 1]);
+}
+
+void Calendar::Year::initiateMonth(size_t month) const
+{
+	if (_months[month - 1] == nullptr)
+		_months[month - 1] = new Month(month);
 }
 
 
@@ -95,6 +109,18 @@ void Calendar::previousMonth()
 
 	--_currentMonth;
 	--_currentYear;
+}
+
+void Calendar::addEvent(const Event& event)
+{
+	if (event.date().year() > ::currentYear() + MAX_YEARS)
+		throw std::out_of_range("You can't add event that far into the future!");
+	if (event.date() < ::currentYear())
+		throw std::out_of_range("You can't add event into the past!");
+	
+	_currentYear = event.date().year() - ::currentYear();
+	initiateYear();
+	_years[_currentYear]->addEvent(event);
 }
 
 ostream& operator<<(ostream& out, const Calendar& c)

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Date.h"
 #include "Time.h"
+using std::ostream, std::string;
 
 enum EventType
 {
@@ -12,7 +13,7 @@ enum EventType
     Other
 };
 
-const std::string EventTypeNames[] = {
+const string EventTypeNames[] = {
     "Meeting",
     "Reminder",
     "Task",
@@ -27,8 +28,8 @@ private:
     Time _time;               
     unsigned int _type;       
     int _priority;            
-    std::string _title;       
-    std::string _description;
+    string _title;       
+    string _description;
     bool _hasTime;            
 
 public:
@@ -36,8 +37,8 @@ public:
         const Date& date,
         const EventType type,
         int priority,
-        const std::string& title,
-        const std::string& description
+        const string& title,
+        const string& description
     ) : _date(date), _time(0,0,0), _type(type), 
         _priority(priority), _title(title), 
         _description(description), _hasTime(false)
@@ -50,8 +51,8 @@ public:
         const Time& time, 
         const EventType type, 
         int priority, 
-        const std::string& title, 
-        const std::string& description
+        const string& title, 
+        const string& description
     ): _date(date), _time(time), _type(type),
         _priority(priority), _title(title), 
         _description(description), _hasTime(true)
@@ -60,16 +61,16 @@ public:
 
     const Date& date() const { return _date; }
     const Time& time() const { return _time; }
-    const std::string& type() const { return eventTypeName(_type); }
+    const string& type() const { return eventTypeName(_type); }
     int priority() const { return _priority; }
-    const std::string& title() const { return _title; }
-    const std::string& description() const { return _description; }
+    const string& title() const { return _title; }
+    const string& description() const { return _description; }
     bool hasTime() const { return _hasTime; }
 
-	static const std::string& eventTypeName(EventType type) { return EventTypeNames[type]; }
+	static const string& eventTypeName(EventType type) { return EventTypeNames[type]; }
 private:
-    static const std::string& eventTypeName(unsigned int type) { return EventTypeNames[type]; }
+    static const string& eventTypeName(unsigned int type) { return EventTypeNames[type]; }
 
 };
 
-std::ostream& operator<<(std::ostream& os, const Event& event);
+ostream& operator<<(ostream& os, const Event& event);

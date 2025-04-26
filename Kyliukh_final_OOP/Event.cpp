@@ -1,6 +1,6 @@
 #include "Event.h"
 
-std::ostream& operator<<(std::ostream& os, const Event& event)
+ostream& operator<<(ostream& os, const Event& event)
 {
 	os << "Event: " << event.title() << "\n"
 		<< "Date: " << event.date() << "\n";

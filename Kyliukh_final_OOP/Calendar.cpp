@@ -64,7 +64,7 @@ const Calendar::Year::Month& Calendar::Year::operator[](size_t month)
 void Calendar::Year::initiateMonth(size_t month) const
 {
 	if (_months[month - 1] == nullptr)
-		_months[month - 1] = new Month(month);
+		_months[month - 1] = new Month(month, Date::numberOfDays(month, _year));
 }
 
 
@@ -100,7 +100,7 @@ void Calendar::previousMonth()
 {
 	if (_currentMonth != 1)
 	{
-		--_currentYear;
+		--_currentMonth;
 		return;
 	}
 
@@ -113,10 +113,12 @@ void Calendar::previousMonth()
 
 void Calendar::addEvent(const Event& event)
 {
-	if (event.date().year() > ::currentYear() + MAX_YEARS)
-		throw std::out_of_range("You can't add event that far into the future!");
-	if (event.date() < ::currentYear())
-		throw std::out_of_range("You can't add event into the past!");
+	const unsigned int eventYear = event.date().year();
+	const unsigned int currentYear = ::currentYear();
+	if (eventYear > currentYear + MAX_YEARS)
+		throw std::out_of_range("You can't travel that far into the future!");
+	if (eventYear < currentYear)
+		throw std::out_of_range("You can't travel into the past!");
 	
 	_currentYear = event.date().year() - ::currentYear();
 	initiateYear();
@@ -126,8 +128,7 @@ void Calendar::addEvent(const Event& event)
 ostream& operator<<(ostream& out, const Calendar& c)
 {
 	out << SEP 
-		<< "Calendar:"
-		<< "\nCurrent year is: " << c.currentYear().year()
+		<< "Current year is: " << c.currentYear().year()
 		<< "\nCurrent month is: " << c.currentMonth() 
 		<< SEP;
 	return out;
@@ -141,6 +142,24 @@ ostream& operator<<(ostream& out, const Calendar::Year& y)
 
 ostream& operator<<(ostream& out, const Calendar::Year::Month& m)
 {
-	out << monthNames[m.month() - 1];
+	out << monthNames[m.month() - 1] << '\n';
+	unsigned int dayOfTheWeek = Date::dayOfTheWeek(1, m.month(), m.year());
+
+	out << "Su  Mo  Tu  We  Th  Fr  Sa\n";
+	for (int i = 0; i < dayOfTheWeek; ++i)
+		out << "    ";
+
+	const int columns = 7; 
+	for (int day = 1; day <= m.daysAmount(); ++day)
+	{
+		if (m.isDayMarked(day))
+			out << setw(2) << "\033[31m" << day << "\033[0m  ";
+		else
+			out << setw(2) << day << "  ";
+		
+		if ((day + dayOfTheWeek) % columns == 0)
+			out << '\n';
+	}
+
 	return out;
 }

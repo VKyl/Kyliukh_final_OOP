@@ -7,7 +7,7 @@ const int Date::monthDaysFromBegin[12] = { 0, 31, 59, 90, 120, 151, 181, 212, 24
 
 const Date Date::defaultDate(1, Jan, UNIX_EPOCH);
 
-const unsigned int Date::numberOfDays(const unsigned int m) const
+const unsigned int Date::numberOfDays(const unsigned int m, const unsigned int y)
 {
     switch (m)
     {
@@ -16,11 +16,19 @@ const unsigned int Date::numberOfDays(const unsigned int m) const
     case Jan: case Mar: case May: case Jul: case Aug: case Oct: case Dec:
         return 31;
     case Feb:
-        return 28 + leapYear();
+        return 28 + leapYear(y);
     default:
         throw std::invalid_argument("Invalid month");
     }
 }
+
+const unsigned int Date::dayOfTheWeek(const unsigned int d, const unsigned int m, const unsigned int y)
+{
+    static const int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
+    unsigned int year = y - (m < 3);
+    return (year + year / 4 - year / 100 + year / 400 + t[m - 1] + d) % 7;
+}
+
 
 void Date::fillDate(unsigned int d, unsigned int m, unsigned int y)
 {
@@ -35,7 +43,7 @@ void Date::validateDate()
     if (_month < 1 || _month > 12)
         throw std::invalid_argument("Invalid month");
 
-    unsigned int numberOfDays = this->numberOfDays(_month);
+    unsigned int numberOfDays = daysInMonth();
 
     if (_day == 0 || _day > numberOfDays || _year < 1970)
         throw std::invalid_argument("Invalid day for the month");
@@ -54,9 +62,10 @@ void Date::normalizeDate()
         _year++;
     }
 
-    while (_day > numberOfDays(_month))
+    while (_day > daysInMonth())
     {
-        _day -= numberOfDays(_month++);
+        _day -= daysInMonth();
+        ++_month;
         _year += (_month - 1) / 12;
         _month = (_month - 1) % 12 + 1;
     }

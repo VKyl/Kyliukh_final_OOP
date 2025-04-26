@@ -9,6 +9,10 @@ const static char monthNames[12][4] = {
 	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
+const static char dayNames[7][4] = {
+	"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+};
+
 class Date
 {
 private:
@@ -51,14 +55,17 @@ public:
 
 	const char* monthName() const { return monthNames[_month-1]; }
 	const bool leapYear() const { return _year % 4 == 0; }
-	const unsigned int daysInMonth() const { return numberOfDays(_month); }
+	const unsigned int daysInMonth() const { return numberOfDays(_month, _year); }
 	const unsigned int toDays() const;
 
 	const Date& operator+= (const unsigned int days);
 	const Date& operator-= (const unsigned int days);
-private:
-	const unsigned int numberOfDays(const unsigned int month) const;
 
+	static const unsigned int numberOfDays(const unsigned int m, const unsigned int y);
+	static const unsigned int dayOfTheWeek(const unsigned int d, const unsigned int m, const unsigned int y);
+	static const bool leapYear(const unsigned int y) { return y % 4 == 0; };
+
+private:
 	void fillDate(unsigned int  d, unsigned int m, unsigned int y);
 	void validateDate();
 	void normalizeDate();

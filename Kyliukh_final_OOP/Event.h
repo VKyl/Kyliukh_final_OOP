@@ -56,7 +56,10 @@ public:
     ): _date(date), _time(time), _type(type),
         _priority(priority), _title(title), 
         _description(description), _hasTime(true)
-    {}
+    {
+        if (_time.hours() > 24)
+            throw std::invalid_argument("Day has only 24 hours (unfortunately)");
+    }
 
 	Event(const Event& other) = default;
 	Event(Event&& other) = default;

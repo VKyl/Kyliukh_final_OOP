@@ -8,11 +8,11 @@ int main()
 {
 	Date d1(12, 1, 2025);
 	Date d2(15, 1, 2026);
-
-	//Event e(d, Meeting, 1, "Project meeting", "Discuss project status");
+	Time t(12, 23, 5);
+	Event e(d1, t, Meeting, 1, "Project meeting", "Discuss project status");
 	Calendar c;
 
-	//c.addEvent(e);
+	c.addEvent(e);
 	c.markDate(d1);
 	c.markDate(d2);
 	std::cout << c << std::endl;

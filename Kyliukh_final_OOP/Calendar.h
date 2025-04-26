@@ -85,7 +85,7 @@ private:
 
 public:
     Month(unsigned int m, const size_t n) :
-        _month(m), _days_amount(n), _days(), _events(10)
+        _month(m), _days_amount(n), _days(nullptr), _events(10)
     {
         _days = new bool[n] {};
         for (int i = 0; i < _events.size(); ++i)

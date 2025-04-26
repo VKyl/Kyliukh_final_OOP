@@ -187,6 +187,7 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,7 @@
     <ClInclude Include="Calendar.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="Sequence.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>

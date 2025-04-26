@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Date.h"
 
-// use date > 1970 month from 0 to 11
+// use date > 1970
 int main()
 {
 	Date d(2, 1, 1970);

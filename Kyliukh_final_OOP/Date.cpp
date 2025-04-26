@@ -138,6 +138,18 @@ const Date& operator--(Date& d)
     return d;
 }
 
+const Date& Date::operator+=(const unsigned int days)
+{
+    *this = *this + days;
+	return *this;
+}
+
+const Date& Date::operator-=(const unsigned int days)
+{
+    *this = *this - days;
+    return *this;
+}
+
 const Date operator--(Date& d, int)
 {
     Date temp = d;

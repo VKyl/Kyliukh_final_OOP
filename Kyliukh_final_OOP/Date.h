@@ -50,6 +50,8 @@ public:
 	const unsigned int daysInMonth() const { return numberOfDays(_month); }
 	const unsigned int toDays() const;
 
+	const Date& operator+= (const unsigned int days);
+	const Date& operator-= (const unsigned int days);
 private:
 	const unsigned int numberOfDays(const unsigned int month) const;
 

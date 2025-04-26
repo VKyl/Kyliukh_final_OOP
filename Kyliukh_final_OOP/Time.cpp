@@ -37,6 +37,18 @@ Time& Time::fromSeconds(unsigned int s)
 	return *this;
 }
 
+const Time& Time::operator+=(const unsigned int seconds)
+{
+	*this = *this + seconds;
+	return *this;
+}
+
+const Time& Time::operator-=(const unsigned int seconds)
+{
+	*this = *this - seconds;
+	return *this;
+}
+
 bool operator==(const Time& t1, const Time& t2)
 {
 	return (

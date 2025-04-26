@@ -34,6 +34,9 @@ public:
 	unsigned int toSeconds() const;
 	Time& fromSeconds(unsigned int s);
 
+	const Time& operator+=(const unsigned int seconds);
+	const Time& operator-=(const unsigned int seconds);
+
 private:
 	void normalizeTime();
 };

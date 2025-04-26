@@ -44,9 +44,7 @@ public:
     ) : _date(date), _time(0,0,0), _type(type), 
         _priority(priority), _title(title), 
         _description(description), _hasTime(false)
-    {
-
-    }
+    {}
 
     Event(
         const Date& date, 
@@ -58,8 +56,12 @@ public:
     ): _date(date), _time(time), _type(type),
         _priority(priority), _title(title), 
         _description(description), _hasTime(true)
-    {
-    }
+    {}
+
+	Event(const Event& other) = default;
+	Event(Event&& other) = default;
+	Event& operator=(const Event& other) = default;
+	Event& operator=(Event&& other) = default;
 
     const Date& date() const { return _date; }
     const Time& time() const { return _time; }

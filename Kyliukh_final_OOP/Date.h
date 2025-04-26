@@ -12,7 +12,7 @@ const static char monthNames[12][4] = {
 class Date
 {
 private:
-	unsigned int _day, _month, _year;
+	unsigned int _year, _month, _day;
 	const static int monthDaysFromBegin[12];
 	static const Date defaultDate;
 

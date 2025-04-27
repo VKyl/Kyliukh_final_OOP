@@ -11,11 +11,10 @@ void task6to8();
 int main()
 {
 	task1to5();
-	
-	Screen screen(12);
-	screen.setCursor(1, 1);
-	screen.replace('A');
-	std::cout << screen << std::endl;
+	task6to8();
+	std::cout << "Unfortunately, I don't have time"
+		<< "to implement the rest of the tasks, due to other factors :(.\n"
+		<< "Waiting for your review!" << std::endl;
 	return 0;
 }
 
@@ -71,38 +70,52 @@ void task1to5()
 		std::cout << *eventsByType[i] << std::endl;
 	}
 
-	{
-		const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
-
-		std::cout << "Events in timespan from 01.01.2025 to 13.12.2026:\n";
-		for (int i = 0; i < eventByTimeSpan.size(); ++i)
-		{
-			std::cout << *eventByTimeSpan[i] << std::endl;
-		}
-	}
-
 	std::cout << "Marked my BDay:\n";
-	c.markDate(Date(9, Date::May, 2025));
+	c.addEvent({ Date(9, Date::May, 2025), Important, 1, "My BD", "" });
 	std::cout << c << std::endl;
 
 	std::cout << "Marked Valentin's BDay\n";
-	c.markDate({ 25, Date::Apr, 2025 });
+	c.addEvent({ { 25, Date::Apr, 2025 }, Important, 1, "Valentine's Bday", "" });
 	std::cout << c << std::endl;
 
 	std::cout << "Marked Bjorn Stroustrup's BDay\n";
-	c.markDate({ 30, Date::Dec, 2025 });
+	c.addEvent({{ 30, Date::Dec, 2025 }, Important, 1, "Bjorn Stroustrup's Bday", ""});
 	std::cout << c << std::endl;
 
 	std::cout << "Marked Linus Torvalds' BDay\n";
-	c.markDate({ 28, Date::Dec, 2025 });
+	c.addEvent({{ 28, Date::Dec, 2025 }, Important, 1, "Linus Torvalds BDay", ""});
 	std::cout << c << std::endl;
-	{
-		const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
 
-		std::cout << "Events in timespan from 01.01.2025 to 1.01.2026:\n";
-		for (int i = 0; i < eventByTimeSpan.size(); ++i)
-		{
-			std::cout << *eventByTimeSpan[i] << std::endl;
-		}
+	const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
+
+	std::cout << "Events in timespan from 01.01.2025 to 1.01.2026:\n";
+	for (int i = 0; i < eventByTimeSpan.size(); ++i)
+	{
+		std::cout << *eventByTimeSpan[i] << std::endl;
 	}
+}
+
+void task6to8()
+{
+	Screen screen(12);
+	std::cout << "Initial screen screen(12) 12 - number of rows:\n";
+	std::cout << screen << std::endl;
+
+	screen.setCursor(1, 1);
+	screen.replace('A');
+	std::cout << "Moved cursor to 1,1 and replaced char to A:\n";
+	std::cout << screen << std::endl;
+
+	Screen screen2(screen);
+	std::cout << "Screen2 (screen's copy):\n";
+	std::cout << screen2 << std::endl;
+
+	screen.setCursor(5, 3);
+	screen.replace('S');
+	std::cout << "Moved cursor to 5,3 and replaced char to S:\n";
+	std::cout << screen << std::endl;
+
+	Screen screen3(std::move(screen));
+	std::cout << "Screen3 (screen's move):\n";
+	std::cout << screen3 << std::endl;
 }

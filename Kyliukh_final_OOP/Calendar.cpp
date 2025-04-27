@@ -39,6 +39,13 @@ const Calendar::Month& Calendar::currentMonth()
 	return currentYear()[_currentMonth];
 }
 
+void Calendar::goToMonth(Date::Month m)
+{
+	if (m > 12) throw std::out_of_range("Month must be in range [1, 12]");
+	_currentMonth = m;
+	currentYear().initiateMonth(_currentMonth);
+}
+
 const Event& Calendar::Month::operator[](size_t index) const
 {
 	return *_events[index];
@@ -149,6 +156,7 @@ void Calendar::initiateYear(unsigned int y) const
 	y = y ? y : _currentYear;
 	if (_years[y] == nullptr)
 		_years[y] = new Year(::currentYear() + y);
+	currentYear().initiateMonth(_currentMonth);
 }
 
 void Calendar::nextMonth()
@@ -161,19 +169,31 @@ void Calendar::nextMonth()
 		initiateYear();
 }
 
+void Calendar::nextYear() const
+{
+	if (_currentYear < MAX_YEARS - 1)
+		++_currentYear;
+	initiateYear();
+}
+
+void Calendar::previousYear() const
+{
+	if (_currentYear > 0)
+		--_currentYear;
+	initiateYear();
+}
+
 void Calendar::previousMonth()
 {
 	if (_currentMonth != 1)
 	{
 		--_currentMonth;
+		currentYear().initiateMonth(_currentMonth);
 		return;
 	}
 
-	if (_currentYear == 0)
-		throw std::out_of_range("You can't travel back in time!");
-
 	--_currentMonth;
-	--_currentYear;
+	previousYear();
 }
 
 void Calendar::addEvent(const Event& event)
@@ -186,6 +206,7 @@ void Calendar::addEvent(const Event& event)
 		throw std::out_of_range("You can't travel into the past!");
 	
 	_currentYear = event.date().year() - ::currentYear();
+	_currentMonth = event.date().month();
 	initiateYear();
 	_years[_currentYear]->addEvent(event);
 }

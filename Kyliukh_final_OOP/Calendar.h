@@ -34,8 +34,8 @@ public:
 
 private:
     mutable Year* _years[MAX_YEARS];
-    size_t _currentYear;
-    size_t _currentMonth;
+    mutable size_t _currentYear;
+    mutable size_t _currentMonth;
 
 public:
     Calendar() : _years(), _currentYear(0), _currentMonth(1)
@@ -69,6 +69,9 @@ public:
     void markDate(const Date& date) { addEvent({date, Important, 1, "", ""}); };
 	void nextMonth();
 	void previousMonth();
+    void nextYear() const;
+    void previousYear() const;
+    void goToMonth(Date::Month m);
     void clear();
 
 private:
@@ -160,8 +163,6 @@ public:
 
     const Calendar::Month& operator[](size_t month) const;
     const Calendar::Month& operator[](size_t month);
-
-private:
     void initiateMonth(size_t month) const;
 };
 

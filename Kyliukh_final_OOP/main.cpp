@@ -6,6 +6,7 @@
 
 // In lab I count dates valid only from 1900y (Unix Epoch)
 void task1to5();
+void task6to8();
 
 int main()
 {
@@ -42,7 +43,7 @@ void task1to5()
 	std::cout << c << std::endl;
 
 	c.addEvent(e2);
-	std::cout << "Added event e2 to calendar (not in currently visible timespan):\n";
+	std::cout << "Added event e2 to calendar:\n";
 	std::cout << c << std::endl;
 
 	c.markDate(d1);
@@ -54,8 +55,10 @@ void task1to5()
 	std::cout << c << std::endl;
 
 	c.nextMonth();
+	std::cout << "Moved to next month:\n";
 	std::cout << c << std::endl;
 
+	std::cout << "Moved to previous month:\n";
 	c.previousMonth();
 	std::cout << c << std::endl;
 
@@ -68,11 +71,38 @@ void task1to5()
 		std::cout << *eventsByType[i] << std::endl;
 	}
 
-	const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
-
-	std::cout << "Events in timespan from 01.01.2025 to 13.12.2026:\n";
-	for (int i = 0; i < eventByTimeSpan.size(); ++i)
 	{
-		std::cout << *eventByTimeSpan[i] << std::endl;
+		const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
+
+		std::cout << "Events in timespan from 01.01.2025 to 13.12.2026:\n";
+		for (int i = 0; i < eventByTimeSpan.size(); ++i)
+		{
+			std::cout << *eventByTimeSpan[i] << std::endl;
+		}
+	}
+
+	std::cout << "Marked my BDay:\n";
+	c.markDate(Date(9, Date::May, 2025));
+	std::cout << c << std::endl;
+
+	std::cout << "Marked Valentin's BDay\n";
+	c.markDate({ 25, Date::Apr, 2025 });
+	std::cout << c << std::endl;
+
+	std::cout << "Marked Bjorn Stroustrup's BDay\n";
+	c.markDate({ 30, Date::Dec, 2025 });
+	std::cout << c << std::endl;
+
+	std::cout << "Marked Linus Torvalds' BDay\n";
+	c.markDate({ 28, Date::Dec, 2025 });
+	std::cout << c << std::endl;
+	{
+		const Sequence<Event*> eventByTimeSpan = c.filterByTimespan(Date(1, 1, 2025), Date(13, 12, 2026));
+
+		std::cout << "Events in timespan from 01.01.2025 to 1.01.2026:\n";
+		for (int i = 0; i < eventByTimeSpan.size(); ++i)
+		{
+			std::cout << *eventByTimeSpan[i] << std::endl;
+		}
 	}
 }

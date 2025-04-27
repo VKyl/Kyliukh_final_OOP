@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Date.h"
 #include "Event.h"
+#include "Screen.h"
 #include "Calendar.h"
 
 // use date > 1970
 int main()
 {
-	Date d1(12, 1, 2025);
+	/*Date d1(12, 1, 2025);
 	Date d2(15, 1, 2026);
 	Time t(12, 23, 5);
 	Event e(d1, t, Meeting, 1, "Project meeting", "Discuss project status");
@@ -26,7 +27,10 @@ int main()
 	for (int i = 0; i < eventByTimeSpan.size(); ++i)
 	{
 		std::cout << *eventByTimeSpan[i] << std::endl;
-	}
-
+	}*/
+	Screen screen(12);
+	screen.setCursor(1, 1);
+	screen.replace('A');
+	std::cout << screen << std::endl;
 	return 0;
 }

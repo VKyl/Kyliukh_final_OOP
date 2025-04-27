@@ -1,18 +1,27 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+#include <stdexcept>
+
+using std::ifstream, std::ostream;
+
+const size_t ROW_LENGTH = 80;
+const size_t ROW_COUNT = 24;
+
 class Screen
 {
 private:
-	const size_t  _w;
+	mutable size_t _cursorX; 
+	mutable size_t _cursorY;
 	const size_t _h;
-	size_t _x, _y;
-	char* _content;
+	char _content[ROW_LENGTH][ROW_COUNT];
 public:
-	Screen(const size_t w, const size_t h, char* pc=0)
-		: _w(w), _h(h), _x(0), _y(0)
-	{
-		
-	}
+	Screen(const size_t h);
 
+	~Screen() = default;
 
+	void print(ostream& out) const;
 };
 
+
+ostream& operator<<(ostream& out, const Screen& screen);
